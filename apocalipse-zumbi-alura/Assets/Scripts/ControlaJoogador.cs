@@ -6,6 +6,7 @@ public class NewBehaviourScript : MonoBehaviour
 {
 
     public float Velocidade = 10;
+    Vector3 direcao;
 
     // Update is called once per frame
     void Update()
@@ -14,10 +15,7 @@ public class NewBehaviourScript : MonoBehaviour
         float eixoX = Input.GetAxis("Horizontal");
         float eixoZ = Input.GetAxis("Vertical");
 
-        Vector3 direcao = new Vector3(eixoX, 0, eixoZ);
-
-        // movimenta no vetor x,y e z
-        transform.Translate(direcao * Velocidade * Time.deltaTime);
+        direcao = new Vector3(eixoX, 0, eixoZ);
 
         // pergunta se está se movendo ou não, para correr ou não
         if (direcao != Vector3.zero)
@@ -29,4 +27,14 @@ public class NewBehaviourScript : MonoBehaviour
             GetComponent<Animator>().SetBool("Movendo", false);
         }
     }
+
+    void FixedUpdate()
+    {
+        // pega o componente Rigidbody
+        GetComponent<Rigidbody>().MovePosition
+            (GetComponent<Rigidbody>().position +
+            (direcao * Velocidade * Time.deltaTime));
+    }
+
+
 }
